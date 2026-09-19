@@ -33,6 +33,9 @@ public class ArenaGUI {
 
     //Object[0] = inventory, Object[1] = group
     public static void refreshInv(Player p, Object[] data) {
+        if (p == null || data == null || data.length < 2 || !(data[0] instanceof Inventory) || !(data[1] instanceof String)) return;
+        Inventory inventory = (Inventory) data[0];
+        if (!(inventory.getHolder() instanceof SelectorHolder)) return;
 
         List<CachedArena> arenas;
         if (((String)data[1]).equalsIgnoreCase("default")) {
@@ -57,7 +60,8 @@ public class ArenaGUI {
                 continue;
             }
             ItemStack i;
-            ((Inventory)data[0]).setItem(slot, new ItemStack(Material.AIR));
+            if (slot < 0 || slot >= inventory.getSize()) continue;
+            inventory.setItem(slot, new ItemStack(Material.AIR));
             if (arenaKey >= arenas.size()) {
                 continue;
             }
@@ -112,15 +116,14 @@ public class ArenaGUI {
             i = BedWarsProxy.getItemAdapter().addTag(i, "world_identifier", ca.getRemoteIdentifier());
             i = BedWarsProxy.getItemAdapter().addTag(i, "cancelClick", "true");
 
-            ((Inventory)data[0]).setItem(slot, i);
+            inventory.setItem(slot, i);
             arenaKey++;
         }
     }
 
     public static void openGui(Player p, String group) {
         int size = BedWarsProxy.config.getYml().getInt(ConfigPath.GENERAL_CONFIGURATION_ARENA_SELECTOR_SETTINGS_SIZE);
-        if (size % 9 != 0) size = 27;
-        if (size > 54) size = 54;
+        if (size < 9 || size > 54 || size % 9 != 0) size = 27;
         Inventory inv = Bukkit.createInventory(new SelectorHolder(), size, Language.getMsg(p, Messages.ARENA_GUI_INV_NAME));
 
         ItemStack i = BedWarsProxy.getItemAdapter().createItem(yml.getString(ConfigPath.GENERAL_CONFIGURATION_ARENA_SELECTOR_STATUS_MATERIAL.replace("%path%", "skipped-slot")),
@@ -139,9 +142,9 @@ public class ArenaGUI {
             inv.setItem(x, i);
         }
 
-        p.openInventory(inv);
         refresh.put(p, new Object[]{inv, group});
         refreshInv(p, new Object[]{inv, group});
+        p.openInventory(inv);
         //p.updateInventory();
         SoundsConfig.playSound("arena-selector-open", p);
     }

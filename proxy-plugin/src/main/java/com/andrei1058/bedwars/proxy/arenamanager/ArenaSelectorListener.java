@@ -16,51 +16,59 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class ArenaSelectorListener implements Listener {
 
     @EventHandler
     public void onArenaSelectorClick(InventoryClickEvent e) {
-        if (e.getClickedInventory() != null && e.getClickedInventory().getHolder() instanceof ArenaGUI.SelectorHolder) {
-            e.setCancelled(true);
-            Player p = (Player) e.getWhoClicked();
-            ItemStack i = e.getCurrentItem();
+        Inventory top = e.getView().getTopInventory();
+        if (!(top.getHolder() instanceof ArenaGUI.SelectorHolder)) return;
 
-            if (i == null) return;
-            if (i.getType() == Material.AIR) return;
+        // Always protect the selector, including clicks originating from the player's inventory.
+        e.setCancelled(true);
+        if (!(e.getWhoClicked() instanceof Player)) return;
+        if (e.getRawSlot() < 0 || e.getRawSlot() >= top.getSize()) return;
 
-            if (!BedWarsProxy.getItemAdapter().hasTag(i, "server")) return;
-            if (!BedWarsProxy.getItemAdapter().hasTag(i, "world_identifier")) return;
-            String server = BedWarsProxy.getItemAdapter().getTag(i, "server");
-            String identifier = BedWarsProxy.getItemAdapter().getTag(i, "world_identifier");
+        Player p = (Player) e.getWhoClicked();
+        ItemStack i = e.getCurrentItem();
 
-            CachedArena a = ArenaManager.getInstance().getArena(server, identifier);
-            if (a == null) return;
+        if (i == null) return;
+        if (i.getType() == Material.AIR) return;
 
-            if (e.getClick() == ClickType.LEFT) {
-                if ((a.getStatus() == ArenaStatus.WAITING || a.getStatus() == ArenaStatus.STARTING) && a.addPlayer(p, null)) {
-                    SoundsConfig.playSound("join-allowed", p);
-                } else {
-                    SoundsConfig.playSound("join-denied", p);
-                    p.sendMessage(Language.getMsg(p, Messages.ARENA_JOIN_DENIED_SELECTOR));
-                }
-            } else if (e.getClick() == ClickType.RIGHT) {
-                if (a.getStatus() == ArenaStatus.PLAYING && a.addSpectator(p, null)) {
-                    SoundsConfig.playSound("spectate-allowed", p);
-                } else {
-                    p.sendMessage(Language.getMsg(p, Messages.ARENA_SPECTATE_DENIED_SELECTOR));
-                    SoundsConfig.playSound("spectate-denied", p);
-                }
+        if (!BedWarsProxy.getItemAdapter().hasTag(i, "server")) return;
+        if (!BedWarsProxy.getItemAdapter().hasTag(i, "world_identifier")) return;
+        String server = BedWarsProxy.getItemAdapter().getTag(i, "server");
+        String identifier = BedWarsProxy.getItemAdapter().getTag(i, "world_identifier");
+
+        CachedArena a = ArenaManager.getInstance().getArena(server, identifier);
+        if (a == null) return;
+
+        if (e.getClick() == ClickType.LEFT) {
+            if ((a.getStatus() == ArenaStatus.WAITING || a.getStatus() == ArenaStatus.STARTING) && a.addPlayer(p, null)) {
+                SoundsConfig.playSound("join-allowed", p);
+            } else {
+                SoundsConfig.playSound("join-denied", p);
+                p.sendMessage(Language.getMsg(p, Messages.ARENA_JOIN_DENIED_SELECTOR));
             }
-            p.closeInventory();
+        } else if (e.getClick() == ClickType.RIGHT) {
+            if (a.getStatus() == ArenaStatus.PLAYING && a.addSpectator(p, null)) {
+                SoundsConfig.playSound("spectate-allowed", p);
+            } else {
+                p.sendMessage(Language.getMsg(p, Messages.ARENA_SPECTATE_DENIED_SELECTOR));
+                SoundsConfig.playSound("spectate-denied", p);
+            }
         }
+        p.closeInventory();
     }
 
     @EventHandler
     public void onArenaSelectorClose(InventoryCloseEvent e) {
         if (!(e.getPlayer() instanceof Player)) return;
-        ArenaGUI.getRefresh().remove(e.getPlayer());
+        if (e.getView().getTopInventory().getHolder() instanceof ArenaGUI.SelectorHolder) {
+            ArenaGUI.getRefresh().remove(e.getPlayer());
+        }
     }
 
     @EventHandler

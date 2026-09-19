@@ -9,7 +9,6 @@ import com.andrei1058.spigot.versionsupport.MaterialSupport;
 import com.andrei1058.spigot.versionsupport.SoundSupport;
 import org.bukkit.Bukkit;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.opentest4j.TestAbortedException;
@@ -141,11 +140,10 @@ public class BedWarsProxyVersionCompatibilityTest extends BedWarsProxyTestBase {
 
     /**
      * Test that the plugin can load with mocked version 1.21.3 support.
-     * This test is expected to fail as the plugin may not be compatible with this version.
+     * This test verifies compatibility with this supported version.
      */
     @Test
     @DisplayName("Test plugin compatibility with Spigot 1.21.3")
-    @Tag("ExpectedFailure")
     public void testPluginCompatibilityWith1_21_3() {
         try {
             // Mock the server version
@@ -160,21 +158,20 @@ public class BedWarsProxyVersionCompatibilityTest extends BedWarsProxyTestBase {
             assertNotNull(BedWarsProxy.getBlockAdapter(), "Block adapter should be loaded on server version 1.21.3");
             assertNotNull(BedWarsProxy.getItemAdapter(), "Item adapter should be loaded on server version 1.21.3");
 
-            System.out.println("[DEBUG_LOG] Test for version 1.21.3 passed unexpectedly");
+            System.out.println("[DEBUG_LOG] Test for version 1.21.3 passed as expected");
         } catch (AssertionError e) {
-            // This is expected, as the plugin may not be compatible with this version
-            System.out.println("[DEBUG_LOG] Test for version 1.21.3 failed as expected: " + e.getMessage());
+            // This should not occur for a supported version
+            System.out.println("[DEBUG_LOG] Test for version 1.21.3 failed unexpectedly: " + e.getMessage());
             throw e; // Re-throw to mark the test as failed
         }
     }
 
     /**
      * Test that the plugin can load with mocked version 1.21.4 support.
-     * This test is expected to fail as the plugin may not be compatible with this version.
+     * This test verifies compatibility with this supported version.
      */
     @Test
     @DisplayName("Test plugin compatibility with Spigot 1.21.4")
-    @Tag("ExpectedFailure")
     public void testPluginCompatibilityWith1_21_4() {
         try {
             // Mock the server version
@@ -189,21 +186,20 @@ public class BedWarsProxyVersionCompatibilityTest extends BedWarsProxyTestBase {
             assertNotNull(BedWarsProxy.getBlockAdapter(), "Block adapter should be loaded on server version 1.21.4");
             assertNotNull(BedWarsProxy.getItemAdapter(), "Item adapter should be loaded on server version 1.21.4");
 
-            System.out.println("[DEBUG_LOG] Test for version 1.21.4 passed unexpectedly");
+            System.out.println("[DEBUG_LOG] Test for version 1.21.4 passed as expected");
         } catch (AssertionError e) {
-            // This is expected, as the plugin may not be compatible with this version
-            System.out.println("[DEBUG_LOG] Test for version 1.21.4 failed as expected: " + e.getMessage());
+            // This should not occur for a supported version
+            System.out.println("[DEBUG_LOG] Test for version 1.21.4 failed unexpectedly: " + e.getMessage());
             throw e; // Re-throw to mark the test as failed
         }
     }
 
     /**
      * Test that the plugin can load with mocked version 1.21.5 support.
-     * This test is expected to fail as the plugin may not be compatible with this version.
+     * This test verifies compatibility with this supported version.
      */
     @Test
     @DisplayName("Test plugin compatibility with Spigot 1.21.5")
-    @Tag("ExpectedFailure")
     public void testPluginCompatibilityWith1_21_5() {
         try {
             // Mock the server version
@@ -218,21 +214,20 @@ public class BedWarsProxyVersionCompatibilityTest extends BedWarsProxyTestBase {
             assertNotNull(BedWarsProxy.getBlockAdapter(), "Block adapter should be loaded on server version 1.21.5");
             assertNotNull(BedWarsProxy.getItemAdapter(), "Item adapter should be loaded on server version 1.21.5");
 
-            System.out.println("[DEBUG_LOG] Test for version 1.21.5 passed unexpectedly");
+            System.out.println("[DEBUG_LOG] Test for version 1.21.5 passed as expected");
         } catch (AssertionError e) {
-            // This is expected, as the plugin may not be compatible with this version
-            System.out.println("[DEBUG_LOG] Test for version 1.21.5 failed as expected: " + e.getMessage());
+            // This should not occur for a supported version
+            System.out.println("[DEBUG_LOG] Test for version 1.21.5 failed unexpectedly: " + e.getMessage());
             throw e; // Re-throw to mark the test as failed
         }
     }
 
     /**
      * Test that the plugin can load with mocked version 1.21.6 support.
-     * This test is expected to fail as the plugin may not be compatible with this version.
+     * This test verifies compatibility with this supported version.
      */
     @Test
     @DisplayName("Test plugin compatibility with Spigot 1.21.6")
-    @Tag("ExpectedFailure")
     public void testPluginCompatibilityWith1_21_6() {
         try {
             // Mock the server version
@@ -247,21 +242,20 @@ public class BedWarsProxyVersionCompatibilityTest extends BedWarsProxyTestBase {
             assertNotNull(BedWarsProxy.getBlockAdapter(), "Block adapter should be loaded on server version 1.21.6");
             assertNotNull(BedWarsProxy.getItemAdapter(), "Item adapter should be loaded on server version 1.21.6");
 
-            System.out.println("[DEBUG_LOG] Test for version 1.21.6 passed unexpectedly");
+            System.out.println("[DEBUG_LOG] Test for version 1.21.6 passed as expected");
         } catch (AssertionError e) {
-            // This is expected, as the plugin may not be compatible with this version
-            System.out.println("[DEBUG_LOG] Test for version 1.21.6 failed as expected: " + e.getMessage());
+            // This should not occur for a supported version
+            System.out.println("[DEBUG_LOG] Test for version 1.21.6 failed unexpectedly: " + e.getMessage());
             throw e; // Re-throw to mark the test as failed
         }
     }
 
     /**
      * Test that the plugin can load with mocked version 1.21.7 support.
-     * This test is expected to fail as the plugin may not be compatible with this version.
+     * This test verifies compatibility with this supported version.
      */
     @Test
     @DisplayName("Test plugin compatibility with Spigot 1.21.7")
-    @Tag("ExpectedFailure")
     public void testPluginCompatibilityWith1_21_7() {
         try {
             // Mock the server version
@@ -276,11 +270,24 @@ public class BedWarsProxyVersionCompatibilityTest extends BedWarsProxyTestBase {
             assertNotNull(BedWarsProxy.getBlockAdapter(), "Block adapter should be loaded on server version 1.21.7");
             assertNotNull(BedWarsProxy.getItemAdapter(), "Item adapter should be loaded on server version 1.21.7");
 
-            System.out.println("[DEBUG_LOG] Test for version 1.21.7 passed unexpectedly");
+            System.out.println("[DEBUG_LOG] Test for version 1.21.7 passed as expected");
         } catch (AssertionError e) {
-            // This is expected, as the plugin may not be compatible with this version
-            System.out.println("[DEBUG_LOG] Test for version 1.21.7 failed as expected: " + e.getMessage());
+            // This should not occur for a supported version
+            System.out.println("[DEBUG_LOG] Test for version 1.21.7 failed unexpectedly: " + e.getMessage());
             throw e; // Re-throw to mark the test as failed
+        }
+    }
+
+    @Test
+    @DisplayName("Test plugin compatibility with Spigot 1.21.8 through 1.21.11")
+    public void testPluginCompatibilityWithLatest1_21Versions() {
+        for (String version : new String[]{"1.21.8", "1.21.9", "1.21.10", "1.21.11"}) {
+            mockServerVersion(version + "-R0.1-SNAPSHOT");
+            assertTrue(plugin.isEnabled(), "Plugin should be enabled on server version " + version);
+            assertNotNull(BedWarsProxy.getSoundAdapter(), "Sound adapter should be loaded on server version " + version);
+            assertNotNull(BedWarsProxy.getMaterialAdapter(), "Material adapter should be loaded on server version " + version);
+            assertNotNull(BedWarsProxy.getBlockAdapter(), "Block adapter should be loaded on server version " + version);
+            assertNotNull(BedWarsProxy.getItemAdapter(), "Item adapter should be loaded on server version " + version);
         }
     }
 
